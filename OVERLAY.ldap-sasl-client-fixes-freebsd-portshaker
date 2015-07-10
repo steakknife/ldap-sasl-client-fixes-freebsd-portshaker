@@ -50,9 +50,9 @@ ldap-sasl-client-fixes_postcopy_to() {
     if /usr/bin/patch -CNp0 "${_makefile}" < "${_patch}" >/dev/null 2>&1; then
       /usr/bin/patch -Np0 "${_makefile}" < "${_patch}"
     else
-      echo "ldap-sasl-client-fixes: Malformed or already applied patch ${_patch}" >&2
+      echo "ldap-sasl-client-fixes: Malformed or already applied patch ${_patch}"
     fi
-  done
+  done | tee /dev/stderr | grep -q '^ldap-sasl-client-fixes: Malformed' && exit 1
   echo "ldap-sasl-client-fixes: Done overlay patches"
 }
 
