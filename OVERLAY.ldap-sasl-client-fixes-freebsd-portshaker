@@ -27,3 +27,33 @@ security/sudo
 www/apache22
 www/apache24
 www/nginx
+
+
+
+This file should go in /usr/local/etc/portshaker.d/ldap-sasl-client-fixes
+
+#!/bin/sh
+. /usr/local/share/portshaker/portshaker.subr
+method="git"
+git_clone_uri="https://github.com/steakknife/ldap-sasl-client-fixes-freebsd-portshaker.git"
+git_branch="master"
+
+ldap-sasl-client-fixes_postcopy_to() {
+  echo "ldap-sasl-client-fixes: Running overlay patches"
+  find "${_target}" -name 'Makefile.*.diff' -type f -depth 3 | while read _patch; do
+    _port_dir="$(dirname "${_patch}")"
+    _category="$(basename "$(dirname "${_port_dir}")")"
+    _port="$(basename "${_port_dir}")"
+    _makefile="${_target}/${_category}/${_port}/Makefile"
+
+    echo "ldap-sasl-client-fixes: Running ${_category}/${_port} patch $(basename "${_patch}")"
+    if /usr/bin/patch -CNp0 "${_makefile}" < "${_patch}" >/dev/null 2>&1; then
+      /usr/bin/patch -Np0 "${_makefile}" < "${_patch}"
+    else
+      echo "ldap-sasl-client-fixes: Malformed or already applied patch ${_patch}" >&2
+    fi
+  done
+  echo "ldap-sasl-client-fixes: Done overlay patches"
+}
+
+run_portshaker_command "$@"
