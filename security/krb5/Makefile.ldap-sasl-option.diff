@@ -1,6 +1,6 @@
 --- Makefile	2015-06-06 20:27:21.000000000 +0000
 +++ Makefile	2015-07-10 14:41:26.000000000 +0000
-@@ -37,12 +37,15 @@
+@@ -37,4 +37,6 @@
  CPE_VERSION=		5-${PORTVERSION}
  CPE_PRODUCT=		kerberos
  
@@ -8,11 +8,3 @@
 +OPTIONS_DEFINE=		KRB5_PDF KRB5_HTML DNS_FOR_REALM LDAP LDAP_SASL READLINE
 +LDAP_SASL_DESC=     Link against LDAP with SASL support instead
 +LDAP_SASL_USE=  WANT_OPENLDAP_SASL=yes
- OPTIONS_DEFAULT=	KRB5_PDF KRB5_HTML
- KRB5_PDF_DESC=		Install krb5 PDF documentation
- KRB5_HTML_DESC=		Install krb5 HTML documentation
- DNS_FOR_REALM_DESC=	Enable DNS lookups for Kerberos realm names
- LDAP=			Enable LDAP support
- 
- .if defined(KRB5_HOME)
- PREFIX=			${KRB5_HOME}
